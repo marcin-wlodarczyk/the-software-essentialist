@@ -64,3 +64,13 @@ export function combineResults(results: ValidationResult[]): ValidationResult {
     }
     return isValid ? {isValid} : {isValid, errors};
 }
+
+export class Password {
+    public static isValid(input: string): ValidationResult {
+        return combineResults([
+            TextUtils.hasLengthBetween(input, 5, 15),
+            TextUtils.containsAtLeastDigits(input, 1),
+            TextUtils.containsAtLeastUppercase(input, 1),
+        ]);
+    }
+}

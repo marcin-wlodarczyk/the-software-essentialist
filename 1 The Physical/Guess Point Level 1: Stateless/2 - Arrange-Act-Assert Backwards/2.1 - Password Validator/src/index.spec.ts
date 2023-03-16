@@ -1,4 +1,4 @@
-import {combineResults, TextUtils} from "./index";
+import {combineResults, Password, TextUtils} from "./index";
 import {FailureResult, ValidationResult} from "./types";
 
 describe('password validator', () => {
@@ -75,6 +75,20 @@ describe('password validator', () => {
             const combined = combineResults(results);
             expect(combined.isValid).toBeTruthy();
             expect((combined as any).errors).toBeUndefined();
+        });
+    });
+    describe('Password', () => {
+        const cases: [string, boolean][] = [
+            ['AbC', false],
+            ['Abc1', false],
+            ['Abcd1', true],
+            ['Abcde', false],
+            ['abcde2', false],
+            [`${"x".repeat(13)}A1`, true],
+            [`${"x".repeat(14)}A1`, false],
+        ];
+        it.each(cases)('Given password "%s" should return "%p"', (text: string, isValid: boolean) => {
+            expect(Password.isValid(text).isValid).toBe(isValid);
         });
     });
 })

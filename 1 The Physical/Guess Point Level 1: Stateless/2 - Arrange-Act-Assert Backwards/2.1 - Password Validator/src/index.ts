@@ -1,4 +1,4 @@
-import {ValidationResult} from "./types";
+import {ValidationError, ValidationResult} from "./types";
 
 export class TextUtils {
     public static hasLengthBetween(text: string, min: number, max: number): ValidationResult {
@@ -51,4 +51,16 @@ export class TextUtils {
                 ]
             };
     }
+}
+
+export function combineResults(results: ValidationResult[]): ValidationResult {
+    let isValid = true;
+    let errors: ValidationError[] = [];
+    for(const res of results) {
+        if(!res.isValid) {
+            if(isValid) isValid = false;
+            errors.push(...res.errors);
+        }
+    }
+    return isValid ? {isValid} : {isValid, errors};
 }

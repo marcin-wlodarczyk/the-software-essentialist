@@ -1,6 +1,6 @@
 type ErrorType = 'INVALID_LENGTH' | 'INSUFFICIENT_DIGITS' | 'INSUFFICIENT_UPPERCASE_LETTERS';
 
-interface ValidationError {
+export interface ValidationError {
     type: ErrorType;
     message: string;
 }
@@ -9,7 +9,7 @@ interface SuccessfulResult {
     isValid: true;
 }
 
-interface FailureResult {
+export interface FailureResult {
     isValid: false;
     errors: ValidationError[];
 }

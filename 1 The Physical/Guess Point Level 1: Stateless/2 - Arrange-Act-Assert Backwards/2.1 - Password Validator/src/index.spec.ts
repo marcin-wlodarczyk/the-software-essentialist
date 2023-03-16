@@ -1,4 +1,5 @@
-import {TextUtils} from "./index";
+import {combineResults, TextUtils} from "./index";
+import {FailureResult, ValidationResult} from "./types";
 
 describe('password validator', () => {
     describe('.hasLengthBetween', () => {
@@ -46,6 +47,35 @@ describe('password validator', () => {
         it.each(cases)('Given text "%s" and %i uppercase letters requirement should return "%p"', (text: string, digits: number, isValid: boolean) => {
             expect(TextUtils.containsAtLeastUppercase(text, digits).isValid).toBe(isValid);
         });
-    })
+    });
+    describe('combineResults', () => {
+        it('Should combine with 1 failure', () => {
+            const results: ValidationResult[] = [
+                {isValid: true},
+                {
+                    isValid: false,
+                    errors: [
+                        {
+                            type: 'INVALID_LENGTH',
+                            message: ''
+                        }
+                    ]
+                },
+                {isValid: true},
+            ];
+            const combined = combineResults(results);
+            expect(combined.isValid).toBeFalsy();
+            expect((combined as FailureResult).errors).toHaveLength(1);
+        });
+        it('Should combine without failures', () => {
+            const results: ValidationResult[] = [
+                {isValid: true},
+                {isValid: true},
+            ];
+            const combined = combineResults(results);
+            expect(combined.isValid).toBeTruthy();
+            expect((combined as any).errors).toBeUndefined();
+        });
+    });
 })
 

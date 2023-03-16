@@ -1,4 +1,4 @@
-type ErrorType = 'INVALID_LENGTH';
+type ErrorType = 'INVALID_LENGTH' | 'INSUFFICIENT_DIGITS';
 
 interface ValidationError {
     type: ErrorType;

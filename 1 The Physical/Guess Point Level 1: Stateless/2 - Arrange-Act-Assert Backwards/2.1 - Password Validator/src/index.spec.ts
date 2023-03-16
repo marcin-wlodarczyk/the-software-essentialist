@@ -16,5 +16,21 @@ describe('password validator', () => {
             expect(TextUtils.hasLengthBetween(text, min, max).isValid).toBe(isValid);
         });
     });
+    describe('.containsDigits', () => {
+        it('Should validate text with 1 digit', () => {
+            expect(() => TextUtils.containsAtLeastDigits('abc1').isValid).toBeTruthy();
+        });
+
+        const cases: [string, number, boolean][] = [
+            ['abc', 1, false],
+            ['a2bc', 1, true],
+            ['a2bc3', 2, true],
+            ['a2b2c3', 2, true],
+            ['a2bc30', 3, true],
+        ];
+        it.each(cases)('Given text "%s" and %i digits requirement should return "%p"', (text: string, digits: number, isValid: boolean) => {
+            expect(TextUtils.containsAtLeastDigits(text, digits).isValid).toBe(isValid);
+        });
+    });
 })
 

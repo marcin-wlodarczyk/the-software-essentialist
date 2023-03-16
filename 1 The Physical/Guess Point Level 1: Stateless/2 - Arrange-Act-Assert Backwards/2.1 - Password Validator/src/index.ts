@@ -35,4 +35,20 @@ export class TextUtils {
                 ]
             };
     }
+
+    public static containsAtLeastUppercase(text: string, nLetters = 1): ValidationResult {
+        const count = text.replace(/[^A-Z]/g, '').length
+
+        return count >= nLetters
+            ? {isValid: true}
+            : {
+                isValid: false,
+                errors: [
+                    {
+                        type: "INSUFFICIENT_UPPERCASE_LETTERS",
+                        message: `Provided input contains insufficient number of uppercase letters(${count}). Must be at least ${nLetters}`
+                    }
+                ]
+            };
+    }
 }

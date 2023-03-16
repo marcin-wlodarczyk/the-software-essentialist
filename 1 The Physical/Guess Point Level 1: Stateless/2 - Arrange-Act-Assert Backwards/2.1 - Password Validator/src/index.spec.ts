@@ -32,5 +32,20 @@ describe('password validator', () => {
             expect(TextUtils.containsAtLeastDigits(text, digits).isValid).toBe(isValid);
         });
     });
+    describe('.containsAtLeastUppercase', () => {
+        it('Should validate text with 1 uppercase letter', () => {
+            expect(() => TextUtils.containsAtLeastUppercase('aBc').isValid).toBeTruthy();
+        });
+        const cases: [string, number, boolean][] = [
+            ['AbC', 2, true],
+            ['A2BC', 2, true],
+            ['Abb', 2, false],
+            ['AbB', 3, false],
+            ['A1B2C3', 3, true],
+        ];
+        it.each(cases)('Given text "%s" and %i uppercase letters requirement should return "%p"', (text: string, digits: number, isValid: boolean) => {
+            expect(TextUtils.containsAtLeastUppercase(text, digits).isValid).toBe(isValid);
+        });
+    })
 })
 
